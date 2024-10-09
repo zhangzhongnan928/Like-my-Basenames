@@ -128,7 +128,7 @@
                 <script type="text/javascript">
                     function generateTlink() {
                         var tokenId = document.getElementById('tokenId').value;
-                        var tlink = 'https://viewer.tokenscript.org/?chain=8453&contract=0x03c4738Ee98aE44591e1A4A4F3CaB6641d95DD9a&scriptId=7738_4&tokenId=' + tokenId;
+                        var tlink = 'https://viewer.tokenscript.org/?chain=8453&amp;contract=0x03c4738Ee98aE44591e1A4A4F3CaB6641d95DD9a&amp;scriptId=7738_4&amp;tokenId=' + tokenId;
                         document.getElementById('tlinkResult').innerText = tlink;
                     }
                 </script>
