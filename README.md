@@ -35,7 +35,7 @@ The Tapp consists of three main TokenScript cards:
 
 ## Smart Contract Interaction
 
-- Likes and dislikes are recorded in a separate smart contract.
+- Likes and dislikes are recorded in a separate smart contract.(0x47fccaa70a679f17b893185e3a5a01915ee1ab6d)
 - Each user can only choose to either like or dislike a Basename.
 - Subsequent transactions will override the previous choice.
 
