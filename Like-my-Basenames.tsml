@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ts:token xmlns:ethereum="urn:ethereum:constantinople" xmlns:ts="http://tokenscript.org/2024/01/tokenscript" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Like My Basenames" xsi:schemaLocation="http://tokenscript.org/2024/01/tokenscript https://www.tokenscript.org/schemas/2024-01/tokenscript.xsd">
+    <ts:label>
+        <ts:plurals xml:lang="en">
+            <ts:string quantity="one">Like My Basenames</ts:string>
+            <ts:string quantity="other">Like My Basenames</ts:string>
+        </ts:plurals>
+    </ts:label>
+
+    <ts:meta>
+        <ts:description xml:lang="en">Like and share your favorite Basenames NFTs on Base blockchain.</ts:description>
+        <ts:aboutUrl xml:lang="en">https://www.base.org/names</ts:aboutUrl>
+        <ts:iconUrl xml:lang="en">https://www.base.org/names/icon.png</ts:iconUrl>
+    </ts:meta>
+
+    <ts:contract interface="erc721" name="BasenamesNFT">
+        <ts:address network="8453">0x03c4738Ee98aE44591e1A4A4F3CaB6641d95DD9a</ts:address>
+    </ts:contract>
+
+    <ts:contract name="BasenamesRating">
+        <ts:address network="8453">0x47fCcaA70A679F17b893185E3A5A01915Ee1aB6D</ts:address>
+        <ts:abi>
+            [
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "tokenId",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "bool",
+                            "name": "like",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "rate",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "tokenId",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "getTotalRatings",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "totalLikes",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "totalDislikes",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                }
+            ]
+        </ts:abi>
+    </ts:contract>
+
+    <ts:origins>
+        <ts:ethereum contract="BasenamesNFT"/>
+    </ts:origins>
+
+    <ts:cards>
+        <ts:card type="action" name="like">
+            <ts:label>
+                <ts:string xml:lang="en">Like</ts:string>
+            </ts:label>
+            <ts:attribute-types>
+                <ts:attribute-type id="tokenId" syntax="1.3.6.1.4.1.1466.115.121.1.36">
+                    <ts:origins>
+                        <ethereum:call as="uint" contract="BasenamesNFT" function="tokenOfOwnerByIndex">
+                            <ts:data>
+                                <ethereum:address network="8453">0x0000000000000000000000000000000000000000</ethereum:address>
+                                <ts:uint256>0</ts:uint256>
+                            </ts:data>
+                        </ethereum:call>
+                    </ts:origins>
+                </ts:attribute-type>
+            </ts:attribute-types>
+            <ts:transaction contract="BasenamesRating" function="rate">
+                <ts:data>
+                    <ts:uint256 ref="tokenId"/>
+                    <ts:bool>true</ts:bool>
+                </ts:data>
+            </ts:transaction>
+        </ts:card>
+
+        <ts:card type="action" name="dislike">
+            <ts:label>
+                <ts:string xml:lang="en">Dislike</ts:string>
+            </ts:label>
+            <ts:attribute-types>
+                <ts:attribute-type id="tokenId" syntax="1.3.6.1.4.1.1466.115.121.1.36">
+                    <ts:origins>
+                        <ethereum:call as="uint" contract="BasenamesNFT" function="tokenOfOwnerByIndex">
+                            <ts:data>
+                                <ethereum:address network="8453">0x0000000000000000000000000000000000000000</ethereum:address>
+                                <ts:uint256>0</ts:uint256>
+                            </ts:data>
+                        </ethereum:call>
+                    </ts:origins>
+                </ts:attribute-type>
+            </ts:attribute-types>
+            <ts:transaction contract="BasenamesRating" function="rate">
+                <ts:data>
+                    <ts:uint256 ref="tokenId"/>
+                    <ts:bool>false</ts:bool>
+                </ts:data>
+            </ts:transaction>
+        </ts:card>
+
+        <ts:card type="action" name="shareTlink">
+            <ts:label>
+                <ts:string xml:lang="en">Share Tlink</ts:string>
+            </ts:label>
+            <ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+                <script type="text/javascript">
+                    function generateTlink() {
+                        var tokenId = document.getElementById('tokenId').value;
+                        var tlink = 'https://viewer.tokenscript.org/?chain=8453&contract=0x03c4738Ee98aE44591e1A4A4F3CaB6641d95DD9a&scriptId=7738_4&tokenId=' + tokenId;
+                        document.getElementById('tlinkResult').innerText = tlink;
+                    }
+                </script>
+                <h3>Generate Tlink</h3>
+                <input type="text" id="tokenId" placeholder="Enter Token ID"/>
+                <button onclick="generateTlink()">Generate</button>
+                <p id="tlinkResult"></p>
+            </ts:view>
+        </ts:card>
+    </ts:cards>
+
+    <ts:attribute-types>
+        <ts:attribute-type id="tokenId" syntax="1.3.6.1.4.1.1466.115.121.1.36">
+            <ts:name>
+                <ts:string xml:lang="en">Token ID</ts:string>
+            </ts:name>
+            <ts:origins>
+                <ts:user-entry as="uint"/>
+            </ts:origins>
+        </ts:attribute-type>
+        <ts:attribute-type id="ownerAddress" syntax="1.3.6.1.4.1.1466.115.121.1.36">
+            <ts:name>
+                <ts:string xml:lang="en">Owner Address</ts:string>
+            </ts:name>
+            <ts:origins>
+                <ts:user-entry as="address"/>
+            </ts:origins>
+        </ts:attribute-type>
+    </ts:attribute-types>
+</ts:token>
